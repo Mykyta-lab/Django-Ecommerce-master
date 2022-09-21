@@ -693,6 +693,8 @@ li.sale-noti > a {
 }
 
 .sub_menu {
+  visibility: hidden;
+  opacity: 0;
   list-style-type: none;
   position: absolute;
   z-index: 1100;
@@ -700,8 +702,6 @@ li.sale-noti > a {
   left:100%;
   width: 225px;
   background-color: #222222;
-  opacity: 0;
-  visibility: hidden;
   padding-top: 10px;
   padding-bottom: 10px;
   transition: all 0.4s;
@@ -1107,7 +1107,7 @@ li.sale-noti > a {
 
 .side-menu .sub-menu > li {
   padding-left: 12px;
-  padding-top: 
+  padding-top: 12px;
 }
 
 .side-menu .sub-menu a:hover {

@@ -104,12 +104,10 @@ class PaymentView(View):
             messages.error(self.request, "Serious Error occured")
             return redirect("/")
 
-
 class HomeView(ListView):
     template_name = "index.html"
     queryset = Item.objects.filter(is_active=True)
     context_object_name = 'items'
-
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -123,21 +121,14 @@ class OrderSummaryView(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
-
 class ShopView(ListView):
     model = Item
     paginate_by = 6
     template_name = "shop.html"
 
-
 class ItemDetailView(DetailView):
     model = Item
     template_name = "product-detail.html"
-
-
-# class CategoryView(DetailView):
-#     model = Category
-#     template_name = "category.html"
 
 class CategoryView(View):
     def get(self, *args, **kwargs):
@@ -150,7 +141,6 @@ class CategoryView(View):
             'category_image': category.image
         }
         return render(self.request, "category.html", context)
-
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
@@ -180,9 +170,9 @@ class CheckoutView(View):
                 country = form.cleaned_data.get('country')
                 zip = form.cleaned_data.get('zip')
                 # add functionality for these fields
-                # same_shipping_address = form.cleaned_data.get(
-                #     'same_shipping_address')
-                # save_info = form.cleaned_data.get('save_info')
+                same_shipping_address = form.cleaned_data.get(
+                    'same_shipping_address')
+                save_info = form.cleaned_data.get('save_info')
                 payment_option = form.cleaned_data.get('payment_option')
                 billing_address = BillingAddress(
                     user=self.request.user,
@@ -209,28 +199,35 @@ class CheckoutView(View):
             messages.error(self.request, "You do not have an active order")
             return redirect("core:order-summary")
 
+class CartView(ListView):
+    template_name = "cart.html"
+    queryset = Item.objects.filter(is_active=True)
+    context_object_name = 'items'
 
-# def home(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "index.html", context)
-#
-#
-# def products(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "product-detail.html", context)
-#
-#
-# def shop(request):
-#     context = {
-#         'items': Item.objects.all()
-#     }
-#     return render(request, "shop.html", context)
+def home(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "index.html", context)
 
+def products(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "product-detail.html", context)
 
+def shop(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "shop.html", context)
+
+def cart(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "cart.html", context)
+    
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -321,7 +318,6 @@ def remove_single_item_from_cart(request, slug):
         return redirect("core:product", slug=slug)
     return redirect("core:product", slug=slug)
 
-
 def get_coupon(request, code):
     try:
         coupon = Coupon.objects.get(code=code)
@@ -329,7 +325,6 @@ def get_coupon(request, code):
     except ObjectDoesNotExist:
         messages.info(request, "This coupon does not exist")
         return redirect("core:checkout")
-
 
 class AddCouponView(View):
     def post(self, *args, **kwargs):

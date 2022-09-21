@@ -194,3 +194,11 @@ class Refund(models.Model):
 
     def __str__(self):
         return f"{self.pk}"
+
+class User(models.Model):
+    username = models.TextField()
+    email = models.EmailField()
+    password = models.TextField()
+
+    def __str__(self):
+        return self.username

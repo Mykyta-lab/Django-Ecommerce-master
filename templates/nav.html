@@ -10,6 +10,16 @@
 	.topbar a:hover{
 		color: black;
 	}
+	.sub_menu {
+		top: 40px;
+		right: -100px;
+		left: auto;
+		width: 150px;
+	}
+	.dropdown:hover .sub_menu {
+		visibility: visible;
+		opacity: 1;
+	}
 </style>
 <!-- Header -->
 <header class="header1">
@@ -34,7 +44,7 @@
 							Mykyta
 					    </a>
 					</span>
-
+					<span class="linedivide1"></span>
 					<div class="topbar-language rs1-select2">
 						<select class="selection-1" name="time">
 							<option>USD</option>
@@ -56,42 +66,46 @@
 						<ul class="main_menu">
 							<li>
 								<a href="/">Home</a>
-
 							</li>
 
 							<li>
-								<a href="/shop/">Shop</a>
+								<a href="shop/">Shop</a>
 							</li>
 
 							{% categories %}
 
-							{% if request.user.is_authenticated %}
-							<li>
-								<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
-							</li>
-							<li>
-								<a href="{% url 'account_logout' %}">Logout</a>
-							</li>
-							{% else %}
-							<li>
-								<a href="#">Login</a>
-								<ul class="sub_menu">
-									<li><a href="{% url 'account_login' %}">Login</a></li>
-									<li><a href="{% url 'account_signup' %}">SignUp</a></li>
-								</ul>
-							</li>
-							{% endif %}
 						</ul>
 					</nav>
 				</div>
 
 				<!-- Header Icon -->
 				<div class="header-icons">
-					<a href="#" class="header-wrapicon1 dis-block">
-						<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
-					</a>
-
-					<span class="linedivide1"></span>
+					{% if request.user.is_authenticated %}
+						<div class="dropdown">
+							<a href="#" class="header-wrapicon1 dis-block">
+								<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+							</a>
+							<ul class="sub_menu">
+								<li>
+									<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
+								</li>
+								<li>
+									<a href="{% url 'account_logout' %}">Logout</a>
+								</li>
+							</ul>
+						</div>
+						<span class="linedivide1"></span>
+					{% else %}
+						<div class="dropdown">
+							<a href="#" >Login</a>
+							<ul class="sub_menu">
+								<li><a href="{% url 'account_login' %}">Login</a></li>
+								<li><a href="{% url 'account_signup' %}">SignUp</a></li>
+							</ul>
+						</div>
+						
+						<span class="linedivide1"></span>
+					{% endif %}
 
 					<div class="header-wrapicon2">
 						<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
@@ -156,7 +170,7 @@
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="/cart/" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										View Cart
 									</a>
 								</div>
@@ -254,7 +268,7 @@
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="/cart/" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										View Cart
 									</a>
 								</div>
@@ -291,7 +305,7 @@
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
 						<div class="topbar-child2-mobile">
 							<span class="topbar-email">
-								fashe@example.com
+								Mykyta
 							</span>
 
 							<div class="topbar-language rs1-select2">
@@ -324,22 +338,29 @@
 					{% categories_mobile %}
 
 					{% if request.user.is_authenticated %}
-					<li class="item-menu-mobile">
-						<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
-					</li>
-					<li class="item-menu-mobile">
-						<a href="{% url 'account_logout' %}">Logout</a>
-					</li>
+						<span class="linedivide1"></span>
+						<a href="#" class="header-wrapicon1 dis-block">
+							<img src="{% static 'images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+						</a>
+						<ul class="sub_menu">
+							<li>
+								<a href="{% url 'core:order-summary' %}">Cart<span class="badge badge-dark">{{ request.user|cart_item_count }}</span></a>
+							</li>
+							<li>
+								<a href="{% url 'account_logout' %}">Logout</a>
+							</li>
+						</ul>
+						
 					{% else %}
-					<li class="item-menu-mobile">
+						<span class="linedivide1"></span>
 						<a href="#">Login</a>
-						<ul class="sub-menu">
+						<ul class="sub_menu">
 							<li><a href="{% url 'account_login' %}">Login</a></li>
 							<li><a href="{% url 'account_signup' %}">SignUp</a></li>
 						</ul>
-						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
-					</li>
 					{% endif %}
 
 				</ul>
-			</na
+			</nav>
+		</div>
+	</header>
